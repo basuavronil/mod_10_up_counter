@@ -1,0 +1,25 @@
+`timescale 1ns / 1ps
+module tb( );
+ reg clk, rst, pre;
+ wire [3:0]  q;
+ 
+ //instanciate the module
+ counter Dut(.clk(clk), .rst(rst), .pre(pre), .q(q));
+ 
+ always #5 clk = ~ clk;
+ 
+ initial begin
+ clk = 0;
+ rst = 1;
+ pre = 0;
+ $monitor("%0t  rst=%0b  pre=%0b  q=%0b", $time, rst, pre, q);
+ #5;
+ rst =0;
+ #100;
+ rst =1;
+ #100;
+ rst =0;
+ #600;
+ $finish;
+ end 
+endmodule
