@@ -1,0 +1,17 @@
+module counter(
+ input clk, rst, pre,
+ output [3:0] q
+ );
+ wire [3:0] w;
+ wire reset_10;
+ //detect 10 (1010)
+ assign reset_10 = w[3] & ~w[2] & w[1] & ~w[0]; 
+ 
+ t_ff dut1 (.clk(clk), .rst(rst), .pre(reset_10 | pre), .d(~w[0]), .q(w[0]));
+ t_ff dut2 (.clk(w[0]), .rst(reset_10 |rst), .pre(pre), .d(~w[1]), .q(w[1]));
+ t_ff dut3 (.clk(w[1]), .rst(rst), .pre(reset_10 | pre), .d(~w[2]), .q(w[2]));
+ t_ff dut4 (.clk(w[2]), .rst(reset_10 | rst), .pre(pre), .d(~w[3]), .q(w[3]));
+ 
+ assign q = w;
+  
+endmodule
